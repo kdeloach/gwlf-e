@@ -14,7 +14,7 @@ from . import AnnualMeans
 from . import WriteOutputFiles
 
 
-def run():
+def run(z):
     print('Running model...')
     ReadGwlfDataFile.ReadAllData()
     PrelimCalculations.InitialCalculations()

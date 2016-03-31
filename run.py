@@ -8,6 +8,7 @@ import sys
 import logging
 
 from gwlfe import gwlfe, parser
+from gwlfe.model import Model
 
 
 def main():
@@ -19,7 +20,8 @@ def main():
     fp = open(gms_filename, 'r')
     gms = parser.GmsReader(fp).read()
 
-    gwlfe.run()
+    z = Model(gms)
+    gwlfe.run(z)
 
 
 if __name__ == '__main__':
