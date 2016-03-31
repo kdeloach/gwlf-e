@@ -11,6 +11,7 @@ class Model(object):
 
     def defaults(self):
         return {
+            'Foo': 'Bar',
         }
 
     def __str__(self):
