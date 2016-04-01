@@ -23,6 +23,8 @@ def main():
     z = Model(gms)
     gwlfe.run(z)
 
+    print(z.tojson())
+
 
 if __name__ == '__main__':
     main()

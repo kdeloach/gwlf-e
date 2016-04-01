@@ -15,27 +15,9 @@ from . import WriteOutputFiles
 
 
 def run(z):
-    # Read existing values from GMS
-    print('NUrb={}, NRur={}, VersionNo={}'.format(z.NUrb, z.NRur, z.VersionNo))
+    ReadGwlfDataFile.ReadAllData(z)
+    return
 
-    # Read "default" model values
-    print('Foo={}'.format(z.Foo))
-
-    # Modify values
-    print('RecessionCoef={}'.format(z.RecessionCoef))
-    z.RecessionCoef *= 1200
-    print('RecessionCoef={}'.format(z.RecessionCoef))
-
-    # Assign new values
-    z.Bing = 'Bing'
-    print('Bing={}'.format(z.Bing))
-
-    # Try to access an undefined variable
-    # Throws AttributeError
-    print(z.UndefinedVariable)
-
-    print('Running model...')
-    ReadGwlfDataFile.ReadAllData()
     PrelimCalculations.InitialCalculations()
 
     for year in range(100):
