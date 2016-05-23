@@ -3,6 +3,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import division
 
+from calendar import monthrange
 from decimal import Decimal
 import json
 
@@ -13,6 +14,7 @@ class DataModel(object):
     def __init__(self, data=None):
         self.__dict__.update(self.defaults())
         self.__dict__.update(data or {})
+        self.fill_date_guides()
 
     def defaults(self):
         NLU = 16
@@ -104,6 +106,31 @@ class DataModel(object):
             'CSNAreaSim': 0,
             'CSNDevType': 'None',
         }
+
+    def fill_date_guides(self):
+        model = self.__dict__
+        if 'WxYrBeg' in model and 'WxYrEnd' in model:
+            begyear = model['WxYrBeg']
+            endyear = model['WxYrEnd']
+            year_range = endyear - begyear + 1
+            month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+            if 'DaysMonth' not in model:
+                model['DaysMonth'] = np.ones((year_range, 12),
+                                             dtype=np.int) * 31
+                for y in range(year_range):
+                    year = begyear + y
+                    for m in range(12):
+                        model['DaysMonth'][y][m] = monthrange(year, m + 1)[1]
+
+            if 'WxMonth' not in model:
+                model['WxMonth'] = [month_abbr
+                                    for y in range(year_range)]
+
+            if 'WxYear' not in model:
+                model['WxYear'] = [[begyear + y] * 12
+                                   for y in range(year_range)]
 
     def __str__(self):
         return '<GWLF-E DataModel>'
